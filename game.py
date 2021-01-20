@@ -42,8 +42,6 @@ class Deck:
 
     def __init__(self):
 
-        self.dealed_cards = []
-        self.dealed_card = []
         self.all_cards = []
 
         for suit in suits:
@@ -59,17 +57,16 @@ class Deck:
 
     def deal_two(self):
 
-        self.dealed_cards.append(self.all_cards.pop())
-        self.dealed_cards.append(self.all_cards.pop(0))
+        dealed_cards = [self.all_cards.pop(), self.all_cards.pop(0)]
 
-        return self.dealed_cards
+        return dealed_cards
 
     # to continue hitting
     def deal_one(self):
 
-        self.dealed_card.append(self.all_cards.pop())
+        dealed_card = [self.all_cards.pop()]
 
-        return self.dealed_cardd
+        return dealed_card
 
 
 class Player:
@@ -96,28 +93,29 @@ class Player:
             return self.player_balance
 
     def place_bet(self):
-        self.value = 0
+        value = 0
 
         if self.player_type == 'p':
             while True:
                 try:
-                    self.value = int(input('Enter your bet please: \n'))
+                    value = int(input('Enter your bet please: \n'))
                 except ValueError:
                     print('You have entered the wrong value! Please try again\n')
                     continue
                 else:
-                    self.player_balance = self.player_balance - self.value
-                    print(f'Your bet {self.value} is accepted!')
+                    self.player_balance = self.player_balance - value
+                    print(f'Your bet {value} is accepted!')
                     break
 
         elif self.player_type == 'd':
-            self.value = random.randint(100, 15000)
-            self.player_balance -= self.value
-            print(f'Dealer bet {self.value}!')
-        return self.value
+            value = random.randint(100, 15000)
+            self.player_balance -= value
+            print(f'Dealer bet {value}!')
+        return value
 
     def add_cards(self, new_cards):
         self.new_cards = new_cards
+
         for card in self.new_cards:
             self.all_cards.append(card)
 
@@ -180,33 +178,32 @@ class Game:
         return self.player.player_choice
 
     def define_values(self):
-        self.card_value = 0
-        self.decision = 0
-        self.rand_list = [1, 11]
+        card_value = 0
+        decision = 0
+        rand_list = [1, 11]
 
         for card in self.player.all_cards:
 
             if card.rank != 'Ace':
 
-                self.card_value = self.card_value + card.value
+                card_value += card.value
 
-            elif (card.rank == 'Ace') and (self.ace_flag == False) and (self.player.player_type == 'p'):
-                while self.decision not in self.rand_list:
+            elif (card.rank == 'Ace') and (not self.ace_flag) and (self.player.player_type == 'p'):
+                while decision not in rand_list:
                     try:
-                        self.decision = int(input('Do you wanna ACE be counted as 1 or 11? (1 or 11):'))
+                        decision = int(input('Do you wanna ACE be counted as 1 or 11? (1 or 11):'))
                     except ValueError:
                         print('You have entered the wrong value. Please try again!')
                     else:
-                        # card.value = self.decision
-                        # self.card_value+= self.decision
                         self.ace_flag = True
                         break
+
             elif (self.player.player_type == 'd') and (card.rank == 'Ace'):
-                self.card_value += random.choice(self.rand_list)
+                card_value += random.choice(rand_list)
 
-        self.card_value += self.decision
+        card_value += decision
 
-        return self.card_value
+        return card_value
 
     def main_logic(self, player_value1, dealer_value2):
         self.player_value1 = player_value1
