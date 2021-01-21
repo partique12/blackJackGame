@@ -72,24 +72,6 @@ while not have_winner:
             have_winner = True
             break
 
-    #     if not player1_card_values:
-    #         player1_card_values = player1_actions.define_values()
-    #
-    #     winner = player1_actions.main_logic(player1_card_values, dealer1_card_values)
-    #
-    #     if not winner and (player1_card_values < 21) and (dealer1_card_values < 21):
-    #
-    #         dealer1.add_card(new_deck.deal_one())
-    #         dealer1_card_values = dealer1_actions.define_values()
-    #
-    #     else:
-    #         dealer1_card_values = dealer1_actions.define_values()
-    #         winner_gain = test_bank.withdraw(player1)
-    #         break
-    #
-    # if winner:
-    #     break
-
 if winner == 'p':
     winner_gain = test_bank.withdraw(player1)
     print(f'Player card values: {player1_card_values}')
